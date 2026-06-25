@@ -3,10 +3,9 @@
 name: Commit Message Check
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-      - develop
 
 jobs:
   check-commits:
