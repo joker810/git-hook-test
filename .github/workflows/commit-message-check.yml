@@ -1,0 +1,31 @@
+# .github/workflows/commit-message-check.yml
+
+name: Commit Message Check
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  check-commits:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate commit messages
+        run: |
+          COMMITS=$(git log origin/${{ github.base_ref }}..HEAD --pretty=format:"%s")
+
+          echo "$COMMITS" | while read msg
+          do
+            if ! echo "$msg" | grep -qE "^(2026_[0-9]+|IMP|IFC|BUG|TEST): .+"; then
+            echo "Invalid commit message:"
+            echo "$msg"
+            exit 1
+            fi
+          done
