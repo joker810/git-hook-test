@@ -3,7 +3,7 @@
 name: Commit Message Check
 
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
 
 jobs:
